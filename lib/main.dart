@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/constant.dart';
+import 'package:toast/toast.dart';
+
+import 'demo/drawer_demo.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,25 +12,74 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {"new_page": (context) => Hello()},
-      home: SplashScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        routes: {"new_page": (context) => Hello()},
+        home: SplashScreen(),
+        theme: ThemeData(
+          primarySwatch: Colors.yellow,
+          highlightColor: Color.fromRGBO(255, 255, 255, 0.5),
+          splashColor: Colors.white10,
+          accentColor: Color.fromRGBO(3, 54, 255, 1.0),
+        ));
   }
 }
 
 class Hello extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: Text('NINGHAO'),
-        centerTitle: true,
-        elevation: 0.0,
-      ),
-      body: null,
-    );
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          backgroundColor: Colors.grey[100],
+          appBar: AppBar(
+            title: Text('FLUTTER'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                tooltip: 'Search',
+                onPressed: () => Toast.show("搜索", context,
+                    duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM),
+              )
+            ],
+            centerTitle: true,
+            elevation: 0.0,
+            bottom: TabBar(
+              unselectedLabelColor: Colors.black38,
+              indicatorColor: Colors.black54,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorWeight: 1.0,
+              tabs: <Widget>[
+                Tab(icon: Icon(Icons.local_florist)),
+                Tab(icon: Icon(Icons.change_history)),
+                Tab(icon: Icon(Icons.directions_bike)),
+              ],
+            ),
+          ),
+          body: TabBarView(children: <Widget>[
+            Icon(Icons.local_florist, size: 128.0, color: Colors.black12),
+            Icon(Icons.change_history, size: 128.0, color: Colors.black12),
+            Icon(Icons.directions_bike, size: 128.0, color: Colors.black12),
+          ]),
+          drawer: DrawerDemo(),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            fixedColor: Colors.black,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.explore), title: Text('Explore')),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history),
+                title: Text('History'),
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.list), title: Text('List')),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                title: Text('My'),
+              )
+            ],
+          ),
+        ));
   }
 }
 
